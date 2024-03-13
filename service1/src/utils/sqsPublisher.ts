@@ -20,8 +20,12 @@ async function sqsPublisher(queue: string, data: string) {
       log.info("📗 SQS STANDARD");
     }
 
+    log.warn("input", input);
+
     const command = new SendMessageCommand(input);
     const response = await client.send(command);
+
+    log.info("🥗 success push to queue:", response);
 
     return response;
   } catch (err: any) {

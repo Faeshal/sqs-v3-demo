@@ -11,7 +11,7 @@ import log4js from "log4js";
 import paginate from "express-paginate";
 import dayjs from "dayjs";
 import { errorHandler } from "./middleware/errorHandler";
-import { sqsConsumer } from "./utils/sqsConsumer";
+import sqsConsumer from "./utils/sqsConsumer";
 import route from "./routes/index";
 const PORT: any = process.env.PORT || 3000;
 const pe = new PrettyError();

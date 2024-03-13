@@ -9,8 +9,7 @@ const client = new SQSClient({ region: "ap-southeast-1" });
 
 const queueUrls: string[] = [
   `${process.env.SQS_BASE_URL}push-user.fifo`, // 0
-  `${process.env.SQS_BASE_URL}email-welcome.fifo`, // 1,...
-  `${process.env.SQS_BASE_URL}gen-ip`,
+  `${process.env.SQS_BASE_URL}gen-ip`, // 1,....
 ];
 
 // * seperate business logic for each queue
@@ -91,6 +90,8 @@ async function sqsConsumer() {
         queueUrl: queueUrl,
         sqs: client,
         handleMessage: (message) => handleMessage(message, queueUrl),
+        visibilityTimeout: 20,
+        waitTimeSeconds: 0,
       });
 
       app.on("error", (err) => {
