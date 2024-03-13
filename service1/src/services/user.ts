@@ -14,41 +14,21 @@ export const pushUser = async () => {
     address: chance.address(),
   };
 
-  // * push to sqs
+  var welcome = {
+    id: chance.timestamp(),
+    email: chance.sentence(),
+  };
 
-  // ! v2
-  // var params = {
-  //   DelaySeconds: 2,
-  //   MessageAttributes: {
-  //     Author: {
-  //       DataType: "String",
-  //       StringValue: "Karandeep Singh",
-  //     },
-  //   },
-  //   MessageBody: "TEST of the SQS service.",
-  //   QueueUrl: "https://sqs.us-east-1.amazonaws.com/570411717331/MyTestQueue",
-  // };
+  // * push to queue A
+  const sqsA = await sqsPublisher("push-user.fifo", JSON.stringify(data));
 
-  // let queueRes = await sqs.sendMessage(params).promise();
-  // const response = {
-  //   statusCode: 200,
-  //   body: queueRes,
-  // };
-  // return response;
+  // * push to queue B
+  const sqsB = await sqsPublisher(
+    "email-welcome.fifo",
+    JSON.stringify(welcome)
+  );
 
-  // ! V3w
-  // const input = {
-  //   QueueUrl:
-  //     "https://sqs.ap-southeast-1.amazonaws.com/851240457083/dummy-microservice",
-  //   MessageBody: JSON.stringify(data),
-  // };
-  // const command = new SendMessageCommand(input);
-  // const response = await client.send(command);
-  // log.info("SQS:", response);
-
-  data.type = "user";
-  const sqs = await sqsPublisher("push-user.fifo", JSON.stringify(data));
-  let finalData = { data, sqs };
+  let finalData = { data, sqsA, sqsB };
   return finalData;
 };
 

@@ -14,7 +14,7 @@ export const pushUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: data.data,
-    sqs: data.sqs,
+    sqs: { A: data.sqsA, B: data.sqsB },
   });
 });
 
