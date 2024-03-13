@@ -10,18 +10,16 @@ const client = new SQSClient({ region: "ap-southeast-1" });
 async function sqsPublisher(queue: string, data: string) {
   try {
     let sqsUrl: string = process.env.SQS_BASE_URL + queue;
-    const id = uniqid();
+    var input: any = { QueueUrl: sqsUrl, MessageBody: data };
 
-    const input = {
-      QueueUrl: sqsUrl,
-      MessageBody: data,
-      MessageGroupId: "user", // only for fifo sqs
-      MessageDeduplicationId: id, //only for fifo sqs,
-      Attributes: {
-        DelaySeconds: "0",
-        MessageRetentionPeriod: "86400",
-      },
-    };
+    if (queue.includes(".fifo")) {
+      log.info("📔 SQS FIFO");
+      input.MessageGroupId = queue;
+      input.MessageDeduplicationId = uniqid();
+    } else {
+      log.info("📗 SQS STANDARD");
+    }
+
     const command = new SendMessageCommand(input);
     const response = await client.send(command);
 

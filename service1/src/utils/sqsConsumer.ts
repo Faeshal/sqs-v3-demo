@@ -7,24 +7,23 @@ log.level = "info";
 // Define SQS Region
 const client = new SQSClient({ region: "ap-southeast-1" });
 
-// // Define Queue URLs
-// const queueUrls: { [key: string]: string } = {
-//   queue1: `${process.env.SQS_BASE_URL}push-user.fifo`,
-//   queue2: `${process.env.SQS_BASE_URL}email-welcome.fifo`,
-// };
-
 const queueUrls: string[] = [
   `${process.env.SQS_BASE_URL}push-user.fifo`, // 0
-  `${process.env.SQS_BASE_URL}email-welcome.fifo`, // 1
+  `${process.env.SQS_BASE_URL}email-welcome.fifo`, // 1,...
+  `${process.env.SQS_BASE_URL}gen-ip`,
 ];
 
-// * business logic for each queue
+// * seperate business logic for each queue
 const processQueue1Message = async (messageBody: any) => {
   log.info("1️⃣ Processing message from queue 1:", messageBody);
 };
 
 const processQueue2Message = async (messageBody: any) => {
   log.info("2️⃣ Processing message from queue 2:", messageBody);
+};
+
+const processQueue3Message = async (messageBody: any) => {
+  log.info("3️⃣ Processing message from queue 3:", messageBody);
 };
 
 // async function sqsConsumer() {
@@ -57,22 +56,21 @@ const processQueue2Message = async (messageBody: any) => {
 //   }
 // }
 
-// Function to process messages with different logic based on the queue
-
 // * global dynamic queue handler
 const handleMessage = async (message: any, queueUrl: string) => {
   try {
-    log.warn("queueUrl", queueUrl);
     const body = JSON.parse(message.Body);
     log.warn("⭕ NEW MESSAGE", body);
 
-    // Determine the queue based on its position in the array
-    const queueIndex = queueUrls.indexOf(queueUrl); // return an index 0,1,2 dst..
-    if (queueIndex !== -1) {
-      if (queueIndex === 0) {
+    // queue mapping based index
+    const index = queueUrls.indexOf(queueUrl); // return an index 0,1,2 dst..
+    if (index !== -1) {
+      if (index === 0) {
         await processQueue1Message(body);
-      } else if (queueIndex === 1) {
+      } else if (index === 1) {
         await processQueue2Message(body);
+      } else if (index === 2) {
+        await processQueue3Message(body);
       }
     } else {
       log.error("no queue url suply!");
@@ -81,6 +79,7 @@ const handleMessage = async (message: any, queueUrl: string) => {
     log.info("finish scanning queue...");
   } catch (error) {
     log.error("Error handling message:", error);
+    return;
   }
 };
 

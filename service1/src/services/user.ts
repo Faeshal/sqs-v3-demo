@@ -28,6 +28,11 @@ export const pushUser = async () => {
     JSON.stringify(welcome)
   );
 
+  // * push to queue C
+  const ip = chance.ip();
+  const ipv6 = chance.ipv6();
+  await sqsPublisher("gen-ip", JSON.stringify({ ip, ipv6 }));
+
   let finalData = { data, sqsA, sqsB };
   return finalData;
 };
