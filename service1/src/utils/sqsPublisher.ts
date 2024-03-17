@@ -5,7 +5,13 @@ const log = log4js.getLogger("utils:sqsPublisher");
 log.level = "info";
 
 // sqs init
-const client = new SQSClient({ region: "ap-southeast-1" });
+const client = new SQSClient({
+  region: "ap-southeast-1",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY as string,
+    secretAccessKey: process.env.AWS_SECRET_KEY as string,
+  },
+});
 
 async function sqsPublisher(queue: string, data: string) {
   try {
@@ -20,13 +26,9 @@ async function sqsPublisher(queue: string, data: string) {
       log.info("📗 SQS STANDARD");
     }
 
-    log.warn("input", input);
-
     const command = new SendMessageCommand(input);
     const response = await client.send(command);
-
     log.info("🥗 success push to queue:", response);
-
     return response;
   } catch (err: any) {
     log.error(err);

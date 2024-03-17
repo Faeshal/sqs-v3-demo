@@ -4,9 +4,16 @@ import log4js from "log4js";
 const log = log4js.getLogger("utils:sqsReceiver");
 log.level = "info";
 
-// Define SQS Region
-const client = new SQSClient({ region: "ap-southeast-1" });
+// * init sqs
+const client = new SQSClient({
+  region: "ap-southeast-1",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY as string,
+    secretAccessKey: process.env.AWS_SECRET_KEY as string,
+  },
+});
 
+// * define queue
 const queueUrls: string[] = [
   `${process.env.SQS_BASE_URL}push-user.fifo`, // 0
   `${process.env.SQS_BASE_URL}gen-ip`, // 1,....
