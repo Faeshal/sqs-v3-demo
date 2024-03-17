@@ -9,10 +9,12 @@ Ref :
 - [SQS SDK V3 - Docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sqs/command/SendMessageCommand/)
 - [SQS Consumer](https://www.npmjs.com/package/sqs-consumer)
 - [Long Poll vs Short Poll](https://flofuchs.com/taking-a-look-at-aws-sqs-short-and-long-polling)
+- [Generate AWS access & secret key](https://k21academy.com/amazon-web-services/create-access-and-secret-keys-in-aws/)
+- [AWS generate key youtube](https://www.youtube.com/watch?v=Fxflt0v2Mfc&ab_channel=NeerajGarg)
 
 Note :
 
-If you didn't specify credentials in your Node.js code and you were still able to send messages to the SQS queue, it's likely that the AWS SDK for JavaScript automatically picked up credentials from one of the following sources:
+If you **didn't specify credentials in your Node.js code** and you were **still able** to send messages to SQS queue, it's likely that the AWS SDK for JavaScript automatically picked up credentials from one of the following sources:
 
 1. Environment Variables: The AWS SDK automatically checks for credentials in the environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY. If these variables are set in your environment, the SDK will use them.
 
