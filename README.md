@@ -2,7 +2,7 @@
 
 ![](https://miro.medium.com/v2/resize:fit:1200/1*9z3sbaE6yGT1Ukau8iq4ew.png)
 
-note: image above is only an illustration to illustrate the final result of how it will be used in a real project
+note: image above only for illustration how it will be used in a real project
 
 Ref :
 

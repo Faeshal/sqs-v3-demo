@@ -32,36 +32,6 @@ const processQueue3Message = async (messageBody: any) => {
   log.info("3️⃣ Processing message from queue 3:", messageBody);
 };
 
-// async function sqsConsumer() {
-//   try {
-//     const sqsApp = Consumer.create({
-//       queueUrl:
-//         "https://sqs.ap-southeast-1.amazonaws.com/851240457083/push-user.fifo",
-//       sqs: client,
-//       handleMessage: async (message) => {
-//         // do some work with `message`
-//         log.info("⭐ NEW MSG:", message);
-//         log.warn("=-=-=-=-=-=-=-=-=-=-=-=-=");
-//       },
-//       batchSize: 3, // Process one message at a time
-//       shouldDeleteMessages: false,
-//     });
-
-//     sqsApp.on("error", (err) => {
-//       log.error(err.message);
-//     });
-
-//     sqsApp.on("processing_error", (err) => {
-//       log.error(err.message);
-//     });
-
-//     sqsApp.start();
-//   } catch (err: any) {
-//     log.error(err);
-//     return;
-//   }
-// }
-
 // * global dynamic queue handler
 const handleMessage = async (message: any, queueUrl: string) => {
   try {
@@ -69,7 +39,7 @@ const handleMessage = async (message: any, queueUrl: string) => {
     log.warn("⭕ NEW MESSAGE", body);
 
     // queue mapping based index
-    const index = queueUrls.indexOf(queueUrl); // return an index 0,1,2 dst..
+    const index = queueUrls.indexOf(queueUrl); // return an index 0,1 etc..
     if (index !== -1) {
       if (index === 0) {
         await processQueue1Message(body);
