@@ -87,10 +87,11 @@ sqsConsumer();
 // * Server Listen
 app.listen(PORT, (err: any) => {
   if (err) {
-    log.error(`Error : ${err}`);
+    log.error(`server error: ${err}`);
     process.exit(1);
   }
   log.info(`✅ Server is Running On Port: ${PORT}`);
 });
 
+// we export this for unit testing
 export default app;
