@@ -84,6 +84,8 @@ log4js.configure({
 // * SQS
 sqsConsumer();
 
+// just tesing from testing branch
+
 // * Server Listen
 app.listen(PORT, (err: any) => {
   if (err) {
